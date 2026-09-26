@@ -83,3 +83,52 @@ try report(
   fileName: "PenguinBoostedTreeRegressor.mlmodel",
   metrics: boostedTree.evaluation(on: testingData)
 ) { try boostedTree.write(to: $0, metadata: modelMetadata) }
+
+// These are illustrative settings, not automatically optimal values.
+print("\nTraining explicitly configured tree models.\n")
+
+let configuredForestParameters = MLRandomForestRegressor.ModelParameters(
+  validation: .split(strategy: .automatic),
+  maxDepth: 8,
+  maxIterations: 100,
+  minLossReduction: 0,
+  minChildWeight: 0.1,
+  randomSeed: 42,
+  rowSubsample: 0.8,
+  columnSubsample: 0.8
+)
+let configuredRandomForest = try MLRandomForestRegressor(
+  trainingData: trainingData,
+  targetColumn: target,
+  featureColumns: features,
+  parameters: configuredForestParameters
+)
+try report(
+  name: "Configured random forest",
+  fileName: "PenguinConfiguredRandomForestRegressor.mlmodel",
+  metrics: configuredRandomForest.evaluation(on: testingData)
+) { try configuredRandomForest.write(to: $0, metadata: modelMetadata) }
+
+let configuredBoostingParameters = MLBoostedTreeRegressor.ModelParameters(
+  validation: .split(strategy: .automatic),
+  maxDepth: 4,
+  maxIterations: 100,
+  minLossReduction: 0,
+  minChildWeight: 0.1,
+  randomSeed: 42,
+  stepSize: 0.1,
+  earlyStoppingRounds: 10,
+  rowSubsample: 0.8,
+  columnSubsample: 0.8
+)
+let configuredBoostedTree = try MLBoostedTreeRegressor(
+  trainingData: trainingData,
+  targetColumn: target,
+  featureColumns: features,
+  parameters: configuredBoostingParameters
+)
+try report(
+  name: "Configured boosted trees",
+  fileName: "PenguinConfiguredBoostedTreeRegressor.mlmodel",
+  metrics: configuredBoostedTree.evaluation(on: testingData)
+) { try configuredBoostedTree.write(to: $0, metadata: modelMetadata) }
