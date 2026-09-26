@@ -1,0 +1,25 @@
+name: Swift examples
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-run:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Show Swift version
+        run: swift --version
+      - name: Build examples
+        run: swift build
+      - name: Run classification example
+        run: swift run classify-penguins
+      - name: Run regression example
+        run: swift run predict-penguin-mass
+      - name: Run recommendation example
+        run: swift run recommend-restaurants

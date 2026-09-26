@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use these examples, please cite this repository using the metadata below."
+title: "Create ML Examples"
+type: software
+authors:
+  - family-names: Kohli
+    given-names: Ikjyot Singh
+url: "https://github.com/drikjyotsingh/CreateML-Examples"
+repository-code: "https://github.com/drikjyotsingh/CreateML-Examples"
+license: Apache-2.0
+version: 1.0.0
+date-released: 2026-09-25
